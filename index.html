@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funky Seafood</title>
+    <style>
+        body {
+            background-color: #ffffff; 
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Top half: 50% height */
+        .top-half {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: all 0.5s ease; /* Smooth transition for growing */
+        }
+
+        /* Bottom half: 50% height */
+        .bottom-half {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+        }
+
+        img {
+            width: 300px; 
+            max-height: 40vh;
+            object-fit: contain;
+            border-radius: 15px;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+            font-size: 2rem;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            white-space: nowrap;
+        }
+
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* The massive YES button covering the bottom half */
+        .full-bottom {
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 50vh !important;
+            border-radius: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 !important;
+            z-index: 100;
+        }
+
+        /* Classes for the "Success" state */
+        .big-gif {
+            width: 500px !important; /* Makes the GIF much bigger */
+            max-height: 60vh !important;
+        }
+
+        .big-text {
+            font-size: 3.5rem !important; /* Makes the final sentence huge */
+            color: #ff4d6d !important;
+        }
+
+        .center-all {
+            height: 100vh !important; /* Moves everything to take up the full screen */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-half" id="topPart">
+        <img id="mainGif" src="minion_heart.gif" alt="Minion Heart">
+        <h1 id="question">Will you be my Valentine?</h1>
+    </div>
+
+    <div class="bottom-half" id="bottomPart">
+        <div class="buttons" id="btnContainer">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const question = document.getElementById('question');
+        const mainGif = document.getElementById('mainGif');
+        const topPart = document.getElementById('topPart');
+        const bottomPart = document.getElementById('bottomPart');
+        
+        let noCount = 0;
+        let yesSize = 20;
+
+        const messages = [
+            "No",
+            "Are you sure?",
+            "Are you sure you are sure?",
+            "You better say yes!",
+            "Babe pleaseeeeee :(",
+            "pretty please🥺"
+        ];
+
+        noBtn.addEventListener('click', () => {
+            noCount++;
+            
+            if (noCount < messages.length) {
+                noBtn.innerText = messages[noCount];
+            }
+
+            // Increase Yes size
+            yesSize += 40; 
+            yesBtn.style.fontSize = yesSize + 'px';
+
+            // FINAL STAGE: YES expands to bottom half
+            if (noCount >= 6) {
+                noBtn.style.display = 'none';
+                yesBtn.classList.add('full-bottom');
+                yesBtn.innerText = "YES! ❤️";
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            // 1. Change text and GIF
+            question.innerText = "AWWWWW, Thank you darling 🥰";
+            mainGif.src = "yay.gif"; 
+
+            // 2. Hide buttons completely
+            yesBtn.style.display = 'none';
+            bottomPart.style.display = 'none';
+
+            // 3. Make top part take full screen and grow elements
+            topPart.classList.add('center-all');
+            mainGif.classList.add('big-gif');
+            question.classList.add('big-text');
+        });
+    </script>
+</body>
+</html>
